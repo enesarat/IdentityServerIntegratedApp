@@ -1,0 +1,57 @@
+﻿using IdentityServer4.Models;
+
+namespace AuthServer
+{
+    static public class Config
+    {
+        #region Api Scopes
+        // Permissions that can be used in Resource Apis are defined.
+        public static IEnumerable<ApiScope> GetApiScopes()
+        {
+            return new List<ApiScope>
+            {
+                new ApiScope("Bitcoin.Write","Bitcoin hesabında transfer izni"),
+                new ApiScope("Bitcoin.Read","Bitcoin hesabında okuma izni"),
+                new ApiScope("Ethereum.Write","Ethereum  hesabında transfer izni"),
+                new ApiScope("Ethereum.Read","Ethereum hesabında okuma izni"),
+            };
+        }
+        #endregion
+        #region Resources
+        // Resource API definitions are made.
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("Bitcoin"){Scopes={"Bitcoin.Read","Bitcoin.Write"}},
+                new ApiResource("Ethereum"){Scopes={ "Ethereum.Read", "Ethereum.Write"}},
+            };
+        }
+        #endregion
+        #region Clients
+        // Client definitions are made for clients that will use Resource APIs.
+        public static IEnumerable<Client> GetClients()
+        {
+            return new List<Client>
+            {
+                new Client
+                {
+                    ClientId="BTC",
+                    ClientName="Bitcoin",
+                    ClientSecrets={new Secret("btc".Sha256())},
+                    AllowedGrantTypes={GrantType.ClientCredentials},
+                    AllowedScopes={"Bitcoin.Read"},
+                },
+                new Client
+                {
+                    ClientId="ETH",
+                    ClientName="Ethereum",
+                    ClientSecrets={new Secret("eth".Sha256())},
+                    AllowedGrantTypes={GrantType.ClientCredentials},
+                    AllowedScopes={"Ethereum.Read","Ethereum.Write"},
+                }
+            };
+        }
+        #endregion
+    }
+}
