@@ -17,6 +17,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     // This API is associated with the resource named 'Bitcoin' in the Auth Server application.
                     options.Audience = "Bitcoin";
                 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ReadBitcoin", policy => policy.RequireClaim("scope", "Bitcoin.Read"));
+    options.AddPolicy("WriteBitcoin", policy => policy.RequireClaim("scope", "Bitcoin.Write"));
+    options.AddPolicy("AdminBitcoin", policy => policy.RequireClaim("scope", "Bitcoin.Admin"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

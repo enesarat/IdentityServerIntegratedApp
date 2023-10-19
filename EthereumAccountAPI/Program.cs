@@ -18,6 +18,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     options.Audience = "Ethereum";
                 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ReadEthereum", policy => policy.RequireClaim("scope", "Ethereum.Read"));
+    options.AddPolicy("WriteEthereum", policy => policy.RequireClaim("scope", "Ethereum.Write"));
+    options.AddPolicy("AdminEthereum", policy => policy.RequireClaim("scope", "Ethereum.Admin"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -12,8 +12,12 @@ namespace AuthServer
             {
                 new ApiScope("Bitcoin.Write","Bitcoin hesabında transfer izni"),
                 new ApiScope("Bitcoin.Read","Bitcoin hesabında okuma izni"),
+                new ApiScope("Bitcoin.Admin","Bitcoin hesabında tam izin"),
+
                 new ApiScope("Ethereum.Write","Ethereum  hesabında transfer izni"),
                 new ApiScope("Ethereum.Read","Ethereum hesabında okuma izni"),
+                new ApiScope("Ethereum.Admin","Ethereum hesabında tam izin"),
+
             };
         }
         #endregion
@@ -23,8 +27,8 @@ namespace AuthServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("Bitcoin"){Scopes={"Bitcoin.Read","Bitcoin.Write"}},
-                new ApiResource("Ethereum"){Scopes={ "Ethereum.Read", "Ethereum.Write"}},
+                new ApiResource("Bitcoin"){Scopes={"Bitcoin.Read","Bitcoin.Write","Bitcoin.Admin"}},
+                new ApiResource("Ethereum"){Scopes={ "Ethereum.Read", "Ethereum.Write","Ethereum.Admin"}},
             };
         }
         #endregion
@@ -40,7 +44,7 @@ namespace AuthServer
                     ClientName="Bitcoin",
                     ClientSecrets={new Secret("btc".Sha256())},
                     AllowedGrantTypes={GrantType.ClientCredentials},
-                    AllowedScopes={"Bitcoin.Read"},
+                    AllowedScopes={"Bitcoin.Read","Bitcoin.Admin"},
                 },
                 new Client
                 {
