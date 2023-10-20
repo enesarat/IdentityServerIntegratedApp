@@ -27,8 +27,14 @@ namespace AuthServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("Bitcoin"){Scopes={"Bitcoin.Read","Bitcoin.Write","Bitcoin.Admin"}},
-                new ApiResource("Ethereum"){Scopes={ "Ethereum.Read", "Ethereum.Write","Ethereum.Admin"}},
+                new ApiResource("Bitcoin"){ // This represents the username of the Resource Api
+                    ApiSecrets={new Secret("btc".Sha256())}, // This represents the password of the Resource Api
+                    Scopes={"Bitcoin.Read","Bitcoin.Write","Bitcoin.Admin"}
+                },
+                new ApiResource("Ethereum"){ // This represonts the username of the Resource Api
+                    ApiSecrets={new Secret("eth".Sha256())}, // This represents the password of the Resource Api
+                    Scopes={ "Ethereum.Read", "Ethereum.Write","Ethereum.Admin"}
+                },
             };
         }
         #endregion
